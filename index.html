@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A Message of Comfort</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f8ff;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    .container {
+      position: relative;
+      width: 400px;
+      height: 300px;
+      perspective: 1000px;
+      margin-bottom: 20px;
+    }
+    
+    .envelope {
+      position: absolute;
+      width: 130%;
+      height: 130%;
+      transform-style: preserve-3d;
+      transition: transform 1.5s;
+      cursor: pointer;
+    }
+    
+    .envelope.open {
+      transform: rotateX(180deg);
+    }
+    
+    .envelope-front, .envelope-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+    }
+    
+    .envelope-front {
+      background-color: #a6c1ee;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .envelope-front:before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      border-bottom: 30px solid #a6c1ee;
+    }
+    
+    .heart {
+      color: white;
+      font-size: 40px;
+      transform: scale(1);
+      animation: pulse 1s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.2); }
+    }
+    
+    .envelope-back {
+      background-color: #fafafa;
+      transform: rotateX(180deg);
+      padding: 20px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    
+    .letter {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    
+    .message-container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .message {
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s, transform 1s;
+      transform: translateY(20px);
+      margin-bottom: 15px;
+    }
+    
+    .message.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .title {
+      font-size: 24px;
+      color: #5a7bb5;
+      margin-bottom: 20px;
+    }
+    
+    .content {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.5;
+      max-width: 100%;
+    }
+    
+    .signature {
+      font-style: italic;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #5a7bb5;
+    }
+    
+    .instructions {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="envelope" id="envelope">
+      <div class="envelope-front">
+        <div class="heart">💙</div>
+      </div>
+      <div class="envelope-back">
+        <div class="letter">
+          <div class="message-container">
+            <div class="message" id="msg1">
+              <div class="title">Dear Friend,</div>
+              <div class="content">I know things have been difficult lately, and I just wanted you to know that I care.</div>
+            </div>
+            
+            <div class="message" id="msg2">
+              <div class="content">It's okay to feel sad. Your feelings are valid, and this tough time doesn't define you.</div>
+            </div>
+            
+            <div class="message" id="msg3">
+              <div class="content">Remember how strong you are. You've overcome challenges before, and you will again.</div>
+            </div>
+            
+            <div class="message" id="msg4">
+              <div class="content">I hope you find moments of peace today, even small ones. Be gentle with yourself.</div>
+            </div>
+            
+            <div class="message" id="msg5">
+              <div class="signature"> - JOHN</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="instructions">Click the envelope to open</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const envelope = document.getElementById('envelope');
+      const instructions = document.querySelector('.instructions');
+      
+      // Make the envelope clickable
+      envelope.addEventListener('click', function() {
+        // Prevent multiple clicks
+        if (envelope.classList.contains('open')) return;
+        
+        envelope.classList.add('open');
+        instructions.textContent = "Opening your message...";
+        
+        setTimeout(() => {
+          const letter = document.querySelector('.letter');
+          letter.style.opacity = 1;
+          instructions.style.display = 'none';
+          
+          const messages = document.querySelectorAll('.message');
+          messages.forEach((message, index) => {
+            setTimeout(() => {
+              message.classList.add('visible');
+            }, 1000 * (index + 1));
+          });
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
